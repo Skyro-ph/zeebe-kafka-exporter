@@ -31,7 +31,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 final class RawRecordsConfigParserTest {
   private static final Set<ValueType> EXPECTED_VALUE_TYPES =
-      EnumSet.complementOf(EnumSet.of(ValueType.NULL_VAL, ValueType.SBE_UNKNOWN));
+      EnumSet.range(ValueType.JOB, ValueType.PROCESS_EVENT);
 
   private final RawRecordsConfigParser parser = new RawRecordsConfigParser();
 
@@ -53,25 +53,25 @@ final class RawRecordsConfigParserTest {
   void shouldParseRecordConfigUnderCorrectValueType() {
     // given
     final RawRecordsConfig config = new RawRecordsConfig();
-    config.deployment = newConfigFromType(ValueType.DEPLOYMENT);
-    config.deploymentDistribution = newConfigFromType(ValueType.DEPLOYMENT_DISTRIBUTION);
-    config.error = newConfigFromType(ValueType.ERROR);
-    config.incident = newConfigFromType(ValueType.INCIDENT);
     config.job = newConfigFromType(ValueType.JOB);
-    config.jobBatch = newConfigFromType(ValueType.JOB_BATCH);
+    config.deployment = newConfigFromType(ValueType.DEPLOYMENT);
+    config.processInstance = newConfigFromType(ValueType.PROCESS_INSTANCE);
+    config.incident = newConfigFromType(ValueType.INCIDENT);
     config.message = newConfigFromType(ValueType.MESSAGE);
     config.messageSubscription = newConfigFromType(ValueType.MESSAGE_SUBSCRIPTION);
-    config.messageStartEventSubscription =
-        newConfigFromType(ValueType.MESSAGE_START_EVENT_SUBSCRIPTION);
-    config.process = newConfigFromType(ValueType.PROCESS);
-    config.processEvent = newConfigFromType(ValueType.PROCESS_EVENT);
-    config.processInstance = newConfigFromType(ValueType.PROCESS_INSTANCE);
-    config.processInstanceCreation = newConfigFromType(ValueType.PROCESS_INSTANCE_CREATION);
-    config.processInstanceResult = newConfigFromType(ValueType.PROCESS_INSTANCE_RESULT);
     config.processMessageSubscription = newConfigFromType(ValueType.PROCESS_MESSAGE_SUBSCRIPTION);
+    config.jobBatch = newConfigFromType(ValueType.JOB_BATCH);
     config.timer = newConfigFromType(ValueType.TIMER);
+    config.messageStartEventSubscription =
+      newConfigFromType(ValueType.MESSAGE_START_EVENT_SUBSCRIPTION);
     config.variable = newConfigFromType(ValueType.VARIABLE);
     config.variableDocument = newConfigFromType(ValueType.VARIABLE_DOCUMENT);
+    config.processInstanceCreation = newConfigFromType(ValueType.PROCESS_INSTANCE_CREATION);
+    config.error = newConfigFromType(ValueType.ERROR);
+    config.processInstanceResult = newConfigFromType(ValueType.PROCESS_INSTANCE_RESULT);
+    config.process = newConfigFromType(ValueType.PROCESS);
+    config.deploymentDistribution = newConfigFromType(ValueType.DEPLOYMENT_DISTRIBUTION);
+    config.processEvent = newConfigFromType(ValueType.PROCESS_EVENT);
 
     // when
     final RecordsConfig parsed = parser.parse(config);

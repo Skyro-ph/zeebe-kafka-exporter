@@ -45,7 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unused")
-@Execution(ExecutionMode.CONCURRENT)
+//@Execution(ExecutionMode.CONCURRENT)
 final class BoundedTransactionRecordBatchTest {
   private static final Logger LOGGER =
       LoggerFactory.getLogger(BoundedTransactionRecordBatchTest.class);

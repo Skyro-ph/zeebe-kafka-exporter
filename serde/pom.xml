@@ -11,13 +11,13 @@
   <parent>
     <artifactId>zeebe-kafka-exporter-root</artifactId>
     <groupId>io.zeebe</groupId>
-    <version>3.1.2-SNAPSHOT</version>
+    <version>8.5.6</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <properties>
     <!-- allow consumers to target Java 8+ -->
-    <version.java>8</version.java>
+    <version.java>17</version.java>
   </properties>
 
   <dependencies>
