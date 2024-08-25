@@ -19,6 +19,7 @@ import io.camunda.zeebe.protocol.record.Record;
 import io.zeebe.exporters.kafka.config.RecordConfig;
 import io.zeebe.exporters.kafka.config.RecordsConfig;
 import io.zeebe.exporters.kafka.serde.RecordId;
+import io.zeebe.exporters.kafka.serde.RecordSerializer;
 import java.util.Objects;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Serializer;

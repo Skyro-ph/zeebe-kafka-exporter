@@ -28,7 +28,7 @@ import io.zeebe.exporters.kafka.producer.RecordBatch;
 import io.zeebe.exporters.kafka.producer.RecordBatchFactory;
 import io.zeebe.exporters.kafka.record.KafkaRecordFilter;
 import io.zeebe.exporters.kafka.record.RecordHandler;
-import io.zeebe.exporters.kafka.record.RecordSerializer;
+import io.zeebe.exporters.kafka.serde.RecordSerializer;
 import java.util.Objects;
 import org.slf4j.Logger;
 

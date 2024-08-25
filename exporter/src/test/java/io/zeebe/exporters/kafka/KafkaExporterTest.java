@@ -19,9 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 
+import io.camunda.zeebe.protocol.record.RecordType;
 import io.camunda.zeebe.protocol.record.ValueType;
-import io.camunda.zeebe.test.exporter.ExporterTestHarness;
-import io.camunda.zeebe.test.exporter.record.MockRecordMetadata;
 import io.zeebe.exporters.kafka.config.Config;
 import io.zeebe.exporters.kafka.config.parser.MockConfigParser;
 import io.zeebe.exporters.kafka.config.parser.RawConfigParser;
@@ -31,6 +30,8 @@ import io.zeebe.exporters.kafka.config.raw.RawRecordsConfig;
 import io.zeebe.exporters.kafka.producer.RecordBatchStub;
 import io.zeebe.exporters.kafka.record.RecordHandler;
 import io.zeebe.exporters.kafka.serde.RecordId;
+import io.zeebe.exporters.kafka.util.ExporterTestHarness;
+import io.zeebe.exporters.kafka.util.record.MockRecordMetadata;
 import java.util.stream.Collectors;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,10 @@ final class KafkaExporterTest {
     testHarness.open();
 
     // when
-    final var records = testHarness.stream().export(5);
+    final var records = testHarness.stream(r ->
+      r.getMetadata()
+        .setValueType(ValueType.PROCESS_INSTANCE)
+        .setRecordType(RecordType.EVENT)).export(5);
 
     // then
     final var expectedIds =
@@ -81,8 +85,7 @@ final class KafkaExporterTest {
     final var recordHandler = new RecordHandler(mockConfigParser.config.getRecords());
 
     // when
-    final var json = "{\"a\": 1}";
-    final var record = testHarness.export(r -> r.setJson(json));
+    final var record = testHarness.export(r -> r.getValue().getVariables().put("a", 1));
 
     // then
     final var expectedRecord = recordHandler.transform(record);
@@ -120,7 +123,10 @@ final class KafkaExporterTest {
     testHarness.open();
 
     // when
-    final var records = testHarness.stream().export(5);
+    final var records = testHarness.stream(r ->
+      r.getMetadata()
+        .setValueType(ValueType.PROCESS_INSTANCE)
+        .setRecordType(RecordType.EVENT)).export(5);
     triggerFlushTask();
 
     // then
@@ -144,7 +150,10 @@ final class KafkaExporterTest {
     testHarness.open();
 
     // when
-    final var records = testHarness.stream().export(5);
+    final var records = testHarness.stream(r ->
+      r.getMetadata()
+        .setValueType(ValueType.PROCESS_INSTANCE)
+        .setRecordType(RecordType.EVENT)).export(5);
     triggerFlushTask();
 
     // then
@@ -160,7 +169,10 @@ final class KafkaExporterTest {
     testHarness.open();
 
     // when
-    final var records = testHarness.stream().export(2);
+    final var records = testHarness.stream(r ->
+      r.getMetadata()
+        .setValueType(ValueType.PROCESS_INSTANCE)
+        .setRecordType(RecordType.EVENT)).export(2);
     batchStubFactory.stub.flushException = new RuntimeException("failed to flush");
     assertThatThrownBy(this::triggerFlushTask).isEqualTo(batchStubFactory.stub.flushException);
     batchStubFactory.stub.flushException = null;
@@ -179,7 +191,10 @@ final class KafkaExporterTest {
     testHarness.open();
 
     // when
-    final var records = testHarness.stream().export(2);
+    final var records = testHarness.stream(r ->
+      r.getMetadata()
+        .setValueType(ValueType.PROCESS_INSTANCE)
+        .setRecordType(RecordType.EVENT)).export(2);
     testHarness.close();
 
     // then
@@ -199,7 +214,10 @@ final class KafkaExporterTest {
 
     // when
     triggerFlushTask();
-    final var records = testHarness.stream().export(2);
+    final var records = testHarness.stream(r ->
+      r.getMetadata()
+        .setValueType(ValueType.PROCESS_INSTANCE)
+        .setRecordType(RecordType.EVENT)).export(2);
     triggerFlushTask();
 
     // then

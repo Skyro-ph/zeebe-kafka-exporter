@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-@Execution(ExecutionMode.CONCURRENT)
+//@Execution(ExecutionMode.CONCURRENT)
 final class RawConfigParserTest {
   private final MockConfigParser<RawRecordsConfig, RecordsConfig> recordsConfigParser =
       new MockConfigParser<>(new RawRecordsConfigParser());
