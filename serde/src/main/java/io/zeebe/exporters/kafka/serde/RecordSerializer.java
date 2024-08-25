@@ -18,7 +18,6 @@ package io.zeebe.exporters.kafka.serde;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import io.camunda.zeebe.protocol.jackson.record.AbstractRecord;
 import io.camunda.zeebe.protocol.record.Record;
 import org.apache.kafka.common.serialization.Serializer;
 
@@ -38,7 +37,7 @@ public final class RecordSerializer extends JacksonSerializer<Record<?>> {
   }
 
   protected RecordSerializer(final ObjectMapper objectMapper) {
-    this(objectMapper.writerFor(new TypeReference<AbstractRecord<?>>() {}));
+    this(objectMapper.writerFor(new TypeReference<Record<?>>() {}));
   }
 
   protected RecordSerializer(final ObjectWriter writer) {
